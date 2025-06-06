@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мамин Смак - Домашні торти та випічка</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fef3e2 100%);
+            color: #8b4513;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #d946ef, #f97316, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #8b4513;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(45deg, #d946ef, #f97316);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        .main-content {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .hero h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #d946ef, #f97316, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            margin-bottom: 3rem;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .recipe-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .recipe-content {
+            padding: 1.5rem;
+        }
+        
+        .recipe-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #8b4513;
+        }
+        
+        .recipe-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .recipe-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            background: linear-gradient(45deg, #fdf2f8, #fce7f3);
+            color: #8b4513;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .review-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: #d946ef;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: serif;
+        }
+        
+        .review-text {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .reviewer {
+            font-weight: 600;
+            color: #8b4513;
+        }
+        
+        .stars {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #8b4513;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #fce7f3;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d946ef;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(45deg, #d946ef, #f97316);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+        
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: left;
+        }
+        
+        .contact-info p {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .contact-info strong {
+            color: #d946ef;
+        }
+        
+        .detailed-recipe {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .detailed-recipe h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #d946ef;
+            margin-bottom: 1rem;
+        }
+        
+        .detailed-recipe img {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            float: right;
+            margin-left: 1rem;
+        }
+        
+        .ingredients {
+            background: #fdf2f8;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .ingredients h4 {
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructions {
+            background: #fef3e2;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .instructions h4 {
+            color: #8b4513;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .detailed-recipe img {
+                float: none;
+                margin: 0 auto 1rem;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Мамин Смак</div>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" data-section="home">Головна</a></li>
+                <li><a class="nav-link" data-section="recipes">Рецепти</a></li>
+                <li><a class="nav-link" data-section="reviews">Відгуки</a></li>
+                <li><a class="nav-link" data-section="contact">Контакти</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Головна сторінка -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Мамин Смак</h1>
+                <p>Добро пожалувати до світу домашньої випічки! Тут ви знайдете найкращі сімейні рецепти тортів, передані з покоління в покоління. Кожен торт приготований з любов'ю та турботою, як це робила моя мама.</p>
+                <p>🍰 Домашні рецепти • 👨‍👩‍👧‍👦 Для всієї сім'ї • ❤️ З любов'ю приготовано</p>
+            </div>
+            
+            <div class="recipes-grid">
+                <div class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Торт Наполеон" class="recipe-image">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Торт "Наполеон"</h3>
+                        <p class="recipe-description">Класичний торт з ніжним заварним кремом та хрустким листковим тістом. Справжній королівський смак!</p>
+                        <div class="recipe-tags">
+                            <span class="tag">Класичний</span>
+                            <span class="tag">Святковий</span>
+                            <span class="tag">3 години</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Шоколадний торт" class="recipe-image">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Шоколадний торт</h3>
+                        <p class="recipe-description">Насичений шоколадний смак з ніжним кремом. Ідеальний вибір для справжніх любителів шоколаду.</p>
+                        <div class="recipe-tags">
+                            <span class="tag">Шоколадний</span>
+                            <span class="tag">День народження</span>
+                            <span class="tag">2 години</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Фруктовий торт" class="recipe-image">
+                    <div class="recipe-content">
+                        <h3 class="recipe-title">Фруктовий торт</h3>
+                        <p class="recipe-description">Легкий бісквітний торт з свіжими фруктами та ніжним кремом. Ідеальний для літнього настрою!</p>
+                        <div class="recipe-tags">
+                            <span class="tag">Фруктовий</span>
+                            <span class="tag">Літній</span>
+                            <span class="tag">1.5 години</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Рецепти -->
+        <section id="recipes" class="section">
+            <div class="hero">
+                <h1>Наші Рецепти</h1>
+                <p>Колекція найкращих домашніх рецептів тортів для будь-якого випадку</p>
+            </div>
+
+            <div class="detailed-recipe">
+                <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Торт Шоколадний">
+                <h3>Торт «Шоколадна насолода»</h3>
+                <p>Класичний торт з шоколадним бісквітом та кремом на основі вершків. Ідеальний для святкових подій!</p>
+            </div>
+
+            <div class="detailed-recipe">
+                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Торт Полуничний">
+                <h3>Торт «Полунична мрія»</h3>
+                <p>Легкий бісквіт з полуничним желе та крем-сиром. Освіжаючий і ніжний смак літа.</p>
+            </div>
+
+            <div class="detailed-recipe">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Торт Наполеон">
+                <h3>Торт «Наполеон»</h3>
+                <div class="ingredients">
+                    <h4>Інгредієнти:</h4>
+                    • 500 г борошна<br>
+                    • 250 г масла<br>
+                    • 200 мл води<br>
+                    • 1 яйце, дрібка солі<br>
+                    <strong>Крем:</strong><br>
+                    • 1 л молока, 2 яйця<br>
+                    • 200 г цукру, 3 ст. л. борошна, ванілін
+                </div>
+                <div class="instructions">
+                    <h4>Приготування:</h4>
+                    Замісити тісто, поділити на 8-10 частин, розкатати коржі та випекти до золотистості. Варити крем до загущення, змазати охолоджені коржі. Настояти торт ніч у холодильнику.
+                </div>
+            </div>
+
+            <div class="detailed-recipe">
+                <img src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Медовик">
+                <h3>Торт «Медовик»</h3>
+                <div class="ingredients">
+                    <h4>Інгредієнти:</h4>
+                    • 2 яйця<br>
+                    • 100 г масла<br>
+                    • 2 ст. л. меду<br>
+                    • 1 ч. л. соди<br>
+                    • 150 г цукру<br>
+                    • 400 г борошна<br>
+                    <strong>Крем:</strong><br>
+                    • 400 г сметани 20%, 150 г цукру
+                </div>
+                <div class="instructions">
+                    <h4>Приготування:</h4>
+                    Змішати інгредієнти для тіста на водяній бані, поступово додати борошно. Сформувати 6-8 коржів, випекти. Промазати сметанним кремом і дати настоятись ніч.
+                </div>
+            </div>
+
+            <div class="detailed-recipe">
+                <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Сирний торт з полуницею">
+                <h3>Сирний торт з полуницею</h3>
+                <div class="ingredients">
+                    <h4>Інгредієнти:</h4>
+                    • 500 г кисломолочного сиру<br>
+                    • 200 мл вершків<br>
+                    • 100 г цукру<br>
+                    • 20 г желатину<br>
+                    • 300 г полуниці<br>
+                    • Бісквітна основа або печиво
+                </div>
+                <div class="instructions">
+                    <h4>Приготування:</h4>
+                    Желатин замочити. Сир, цукор, вершки збити в крем. Додати розчинений желатин. Вилити масу у форму з основою з печива. Додати полуницю, охолодити 3-4 год.
+                </div>
+            </div>
+        </section>
+
+        <!-- Відгуки -->
+        <section id="reviews" class="section">
+            <div class="hero">
+                <h1>Відгуки наших читачів</h1>
+                <p>Що кажуть люди про наші рецепти</p>
+            </div>
+            
+            <div class="reviews-container">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Торти з цього сайту стали улюбленими в нашій родині! "Медовик" — просто казка. Дякую за теплі рецепти!</p>
+                    <div class="reviewer">— Наталя з Києва ❤️</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Я готувала "Наполеон" за вашим рецептом на день народження сина — гості були в захваті! Дуже доступно та смачно.</p>
+                    <div class="reviewer">— Олена з Харкова 🌟</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Цей сайт повернув мені смак до випічки. Особливо сподобався сирний торт з полуницею — легко та ніжно.</p>
+                    <div class="reviewer">— Ірина з Львова 🍓</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Неймовірно смачний торт "Наполеон"! Готувала за вашим рецептом на день народження доньки - всі гості були в захваті. Дякую за детальні інструкції!</p>
+                    <div class="reviewer">— Олена К., Київ</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Шоколадний торт просто фантастичний! Навіть мій чоловік, який не любить солодке, попросив добавки. Рецепт дуже простий, а результат - як у професійного кондитера.</p>
+                    <div class="reviewer">— Марія П., Львів</div>
+                </div>
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">Готую разом з дітьми за вашими рецептами. Це стало нашою сімейною традицією! Діти в захваті від процесу, а я - від результату.</p>
+                    <div class="reviewer">— Тетяна Б., Запоріжжя</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакти -->
+        <section id="contact" class="section">
+            <div class="hero">
+                <h1>Зв'яжіться з нами</h1>
+                <p>Маєте питання або хочете поділитися своїми успіхами? Ми завжди раді спілкуванню!</p>
+            </div>
+            
+            <div class="contact-info">
+                <h2 style="color: #d946ef; text-align: center;">Контактна інформація</h2>
+                <p><strong>📞 Телефон:</strong> +38 (097) 516 09 90</p>
+                <p><strong>📧 Email:</strong> mamynsmak@smachno.ua</p>
+                <p><strong>📍 Адреса:</strong> вул. Зарічанська, 10, м. Хмельницький, Україна</p>
+                <p><strong>⏰ Графік:</strong> Пн-Пт, 9:00 – 18:00</p>
+            </div>
+            
+            <form class="contact-form" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label for="name">Ваше ім'я:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Електронна пошта:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Тема:</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Повідомлення:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">Надіслати повідомлення</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // Навігація між розділами
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Видалити активний клас з усіх посилань
+                    navLinks.forEach(nl => nl.classList.remove('active'));
+                    // Додати активний клас до поточного посилання
+                    this.classList.add('active');
+                    
+                    // Сховати всі розділи
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Показати обраний розділ
+                    const targetSection = document.getElementById(this.dataset.section);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Обробка форми
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Імітація відправки форми
+            alert(`Дякуємо, ${name}! Ваше повідомлення було надіслано. Ми зв'яжемося з вами найближчим часом.`);
+            
+            // Очистити форму
+            event.target.reset();
+        }
+        
+        // Мобільне меню
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
